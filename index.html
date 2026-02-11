@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shader Art Coding — Interactive Tutorial</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="learn-active">
+
+<!-- ═══════════════ HEADER ═══════════════ -->
+<div id="header">
+  <div class="logo"><span>✦</span> Shader Art Coding</div>
+  <div class="header-sep"></div>
+  <select id="lesson-select"></select>
+  <div class="header-sep code-only"></div>
+  <div class="code-only" style="display:flex;gap:8px;align-items:center;">
+    <button class="btn primary" id="btn-compile" title="Compile shader (Ctrl+Enter)">▶ Run</button>
+    <button class="btn" id="btn-pause" title="Pause/resume">⏸ Pause</button>
+    <button class="btn" id="btn-reset" title="Reset time">↺ Reset</button>
+  </div>
+  <div class="header-right">
+    <div class="hud code-only">
+      <span>Time: <span class="val" id="hud-time">0.00</span>s</span>
+      <span>FPS: <span class="val" id="hud-fps">0</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ MODE BAR ═══════════════ -->
+<div id="mode-bar">
+  <button class="mode-tab active" id="tab-learn" data-mode="learn">
+    <span class="mode-icon">📖</span>
+    <span class="mode-label">Learn</span>
+  </button>
+  <button class="mode-tab" id="tab-code" data-mode="code">
+    <span class="mode-icon">💻</span>
+    <span class="mode-label">Code</span>
+  </button>
+</div>
+
+<!-- ═══════════════ CONTENT AREA ═══════════════ -->
+<div id="content-area">
+
+  <!-- ── Learn Mode ── -->
+  <div id="learn-mode" class="mode-content active">
+    <div class="learn-container">
+      <div id="lesson-pills"></div>
+      <div id="tutorial-content" class="tutorial-content"></div>
+    </div>
+  </div>
+
+  <!-- ── Code Mode ── -->
+  <div id="code-mode" class="mode-content">
+    <!-- Hint bar -->
+    <div id="code-hint-bar">
+      <span class="hint-title" id="hint-title">Welcome</span>
+      <button class="hint-back" id="hint-back">📖 Back to Learn</button>
+    </div>
+    <!-- Workspace -->
+    <div id="workspace">
+      <div id="workspace-split">
+        <!-- Code Editor -->
+        <div id="editor-area">
+          <div id="editor-tabs">
+            <div class="tab active"><div class="dot"></div><span id="tab-filename">shader.glsl</span></div>
+          </div>
+          <textarea id="shader-code" spellcheck="false"></textarea>
+          <div id="error-bar"></div>
+        </div>
+
+        <!-- Resizer -->
+        <div id="resizer"></div>
+
+        <!-- Canvas -->
+        <div id="canvas-area">
+          <div id="canvas-bar">
+            <span class="label">Resolution:</span>
+            <span class="val" id="hud-res">0×0</span>
+            <span class="label" style="margin-left:8px;">Mouse:</span>
+            <span class="val" id="hud-mouse">0, 0</span>
+          </div>
+          <canvas id="glcanvas"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════ SCRIPTS ═══════════════ -->
+<!-- Lesson data (loaded in order) -->
+<script src="lessons/00-welcome.js"></script>
+<script src="lessons/01-hello-color.js"></script>
+<script src="lessons/02-shapes.js"></script>
+<script src="lessons/03-transforms.js"></script>
+<script src="lessons/04-animation.js"></script>
+<script src="lessons/05-patterns.js"></script>
+<script src="lessons/06-color.js"></script>
+<script src="lessons/07-noise.js"></script>
+<script src="lessons/08-raymarching.js"></script>
+<script src="lessons/09-lighting.js"></script>
+<script src="lessons/10-advanced.js"></script>
+
+<!-- Engine + App -->
+<script src="js/engine.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
+

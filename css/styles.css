@@ -1,0 +1,590 @@
+/* ═══════════════════════════════════════════════════════════
+   CSS Reset & Base
+   ═══════════════════════════════════════════════════════════ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg:        #0d1117;
+  --bg-panel:  #161b22;
+  --bg-dark:   #010409;
+  --bg-editor: #0d1117;
+  --border:    #30363d;
+  --text:      #e6edf3;
+  --text-dim:  #8b949e;
+  --text-dimmer:#484f58;
+  --accent:    #58a6ff;
+  --accent2:   #3fb950;
+  --accent3:   #d2a8ff;
+  --accent4:   #f78166;
+  --accent5:   #ff7b72;
+  --yellow:    #e3b341;
+  --radius:    8px;
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --header-h: 48px;
+}
+html, body { height: 100%; overflow: hidden; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+}
+::selection { background: rgba(88,166,255,0.3); }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+/* ═══════════════════════════════════════════════════════════
+   Header
+   ═══════════════════════════════════════════════════════════ */
+#header {
+  height: var(--header-h);
+  background: var(--bg-dark);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+  flex-shrink: 0;
+  z-index: 100;
+}
+#header .logo {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+#header .logo span { font-size: 18px; }
+.header-sep { width: 1px; height: 24px; background: var(--border); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-panel);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+  user-select: none;
+}
+.btn:hover { background: var(--border); border-color: var(--text-dim); }
+.btn.primary { background: #238636; border-color: #2ea043; color: #fff; }
+.btn.primary:hover { background: #2ea043; }
+.btn.danger { border-color: var(--accent5); color: var(--accent5); }
+.btn.danger:hover { background: rgba(255,123,114,0.15); }
+.btn.active { background: rgba(88,166,255,0.15); border-color: var(--accent); color: var(--accent); }
+
+.header-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.hud { font-size: 12px; color: var(--text-dim); display: flex; gap: 12px; }
+.hud .val { color: var(--accent2); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+#lesson-select {
+  background: var(--bg-panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 28px 5px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238b949e' d='M2.5 4.5L6 8l3.5-3.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+}
+#lesson-select:hover { border-color: var(--text-dim); }
+
+/* Hide code-only controls when in learn mode */
+body.learn-active .code-only { display: none !important; }
+
+/* ═══════════════════════════════════════════════════════════
+   Mode Bar — Prominent dual-mode tab switcher
+   ═══════════════════════════════════════════════════════════ */
+#mode-bar {
+  display: flex;
+  height: 54px;
+  background: var(--bg-dark);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 90;
+}
+
+.mode-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--text-dimmer);
+  border-bottom: 4px solid transparent;
+  transition: all var(--transition);
+  user-select: none;
+  position: relative;
+  outline: none;
+}
+
+.mode-tab .mode-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.mode-tab .mode-label {
+  line-height: 1;
+}
+
+.mode-tab:hover {
+  color: var(--text-dim);
+  background: rgba(255,255,255,0.02);
+}
+
+.mode-tab + .mode-tab {
+  border-left: 1px solid var(--border);
+}
+
+/* Learn tab — active state: purple accent */
+.mode-tab[data-mode="learn"].active {
+  color: var(--accent3);
+  border-bottom-color: var(--accent3);
+  background: rgba(210,168,255,0.08);
+}
+.mode-tab[data-mode="learn"].active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 15%;
+  right: 15%;
+  height: 6px;
+  background: var(--accent3);
+  filter: blur(10px);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Code tab — active state: green accent */
+.mode-tab[data-mode="code"].active {
+  color: var(--accent2);
+  border-bottom-color: var(--accent2);
+  background: rgba(63,185,80,0.08);
+}
+.mode-tab[data-mode="code"].active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 15%;
+  right: 15%;
+  height: 6px;
+  background: var(--accent2);
+  filter: blur(10px);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Content Area — switches between Learn and Code
+   ═══════════════════════════════════════════════════════════ */
+#content-area {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.mode-content {
+  display: none;
+  position: absolute;
+  inset: 0;
+}
+
+.mode-content.active {
+  display: flex;
+  animation: modeFadeIn 0.25s ease;
+}
+
+@keyframes modeFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Learn Mode
+   ═══════════════════════════════════════════════════════════ */
+#learn-mode {
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  background: var(--bg);
+}
+
+/* Subtle accent line at top of learn mode */
+#learn-mode::before {
+  content: '';
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent3), transparent);
+  opacity: 0.25;
+  flex-shrink: 0;
+  z-index: 2;
+}
+
+.learn-container {
+  max-width: 720px;
+  width: 100%;
+  padding: 32px 28px 80px;
+}
+
+/* Lesson pills in learn mode */
+#lesson-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 28px;
+}
+
+.pill {
+  padding: 5px 14px;
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--bg-dark);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.pill:hover { border-color: var(--accent3); color: var(--accent3); }
+.pill.active { background: rgba(210,168,255,0.15); border-color: var(--accent3); color: var(--accent3); }
+.pill.completed { border-color: var(--accent2); color: var(--accent2); }
+.pill.completed::before { content: "✓ "; }
+
+/* ═══════════════════════════════════════════════════════════
+   Tutorial Content (rendered in learn mode)
+   ═══════════════════════════════════════════════════════════ */
+.tutorial-content { animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+.tutorial-content h1 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  background: linear-gradient(135deg, var(--accent), var(--accent3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.tutorial-content .subtitle {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 24px;
+}
+.tutorial-content h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 24px 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tutorial-content h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent3);
+  margin: 18px 0 8px;
+}
+.tutorial-content p { margin-bottom: 12px; color: var(--text); font-size: 14px; line-height: 1.7; }
+.tutorial-content ul, .tutorial-content ol { margin: 0 0 12px 20px; font-size: 14px; }
+.tutorial-content li { margin-bottom: 4px; }
+.tutorial-content code {
+  background: rgba(88,166,255,0.1);
+  color: var(--accent);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: 'Consolas', 'Fira Code', 'Courier New', monospace;
+  font-size: 12.5px;
+}
+.tutorial-content pre {
+  background: var(--bg-dark);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  overflow-x: auto;
+  font-family: 'Consolas', 'Fira Code', 'Courier New', monospace;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.tutorial-content .tip {
+  background: rgba(63,185,80,0.08);
+  border-left: 3px solid var(--accent2);
+  padding: 10px 14px;
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 14px;
+  font-size: 13px;
+}
+.tutorial-content .tip::before { content: "💡 "; }
+.tutorial-content .warn {
+  background: rgba(227,179,65,0.08);
+  border-left: 3px solid var(--yellow);
+  padding: 10px 14px;
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 14px;
+  font-size: 13px;
+}
+.tutorial-content .warn::before { content: "⚠️ "; }
+
+.tutorial-content .exercise {
+  background: rgba(210,168,255,0.06);
+  border: 1px solid rgba(210,168,255,0.18);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+.tutorial-content .exercise-title {
+  font-weight: 600;
+  color: var(--accent3);
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.tutorial-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 14px;
+  font-size: 13px;
+}
+.tutorial-content th, .tutorial-content td {
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+.tutorial-content th { background: var(--bg-dark); color: var(--accent); font-weight: 600; }
+
+/* "Try in Code Mode" buttons inside exercises */
+.try-code-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 7px 18px;
+  background: rgba(63,185,80,0.1);
+  border: 1px solid rgba(63,185,80,0.3);
+  border-radius: 6px;
+  color: var(--accent2);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.try-code-btn:hover {
+  background: rgba(63,185,80,0.2);
+  border-color: var(--accent2);
+}
+
+/* Lesson nav buttons at bottom of tutorial */
+.lesson-nav-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 36px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.lesson-nav-buttons .btn { flex: 1; justify-content: center; }
+
+/* ═══════════════════════════════════════════════════════════
+   Code Mode
+   ═══════════════════════════════════════════════════════════ */
+#code-mode {
+  flex-direction: column;
+}
+
+/* Subtle accent line at top of code mode */
+#code-mode::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent2), transparent);
+  opacity: 0.25;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Hint bar — shows lesson title and link back to Learn */
+#code-hint-bar {
+  display: flex;
+  align-items: center;
+  padding: 6px 16px;
+  background: rgba(63,185,80,0.05);
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+  flex-shrink: 0;
+  z-index: 1;
+}
+#code-hint-bar .hint-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent2);
+}
+#code-hint-bar .hint-back {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--accent3);
+  cursor: pointer;
+  text-decoration: none;
+  padding: 3px 12px;
+  border: 1px solid rgba(210,168,255,0.3);
+  border-radius: 4px;
+  background: transparent;
+  transition: all var(--transition);
+}
+#code-hint-bar .hint-back:hover {
+  background: rgba(210,168,255,0.1);
+  border-color: var(--accent3);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Workspace (editor + canvas in code mode)
+   ═══════════════════════════════════════════════════════════ */
+#workspace {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+#workspace-split {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* Editor area */
+#editor-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+  border-right: 1px solid var(--border);
+}
+#editor-tabs {
+  display: flex;
+  align-items: center;
+  background: var(--bg-dark);
+  border-bottom: 1px solid var(--border);
+  padding: 0 8px;
+  height: 36px;
+  flex-shrink: 0;
+}
+.tab {
+  padding: 6px 14px;
+  font-size: 12px;
+  color: var(--text-dim);
+  border-bottom: 2px solid transparent;
+  cursor: default;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tab.active { color: var(--text); border-bottom-color: var(--accent); }
+.tab .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent4); }
+
+#shader-code {
+  flex: 1;
+  background: var(--bg-editor);
+  color: var(--text);
+  font-family: 'Consolas', 'Fira Code', 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.65;
+  padding: 12px 16px;
+  border: none;
+  resize: none;
+  outline: none;
+  tab-size: 4;
+  white-space: pre;
+  overflow: auto;
+  caret-color: var(--accent);
+}
+
+#error-bar {
+  background: rgba(248,97,102,0.08);
+  color: var(--accent5);
+  font-family: 'Consolas', monospace;
+  font-size: 12px;
+  padding: 8px 14px;
+  max-height: 80px;
+  overflow-y: auto;
+  display: none;
+  white-space: pre-wrap;
+  border-top: 1px solid rgba(248,97,102,0.3);
+}
+
+/* Canvas area */
+#canvas-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+  background: #000;
+}
+#canvas-bar {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  height: 36px;
+  background: var(--bg-dark);
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+  flex-shrink: 0;
+}
+#canvas-bar .label { font-size: 12px; color: var(--text-dim); }
+#canvas-bar .val { color: var(--accent2); font-weight: 600; font-size: 12px; }
+
+canvas {
+  flex: 1;
+  width: 100%;
+  display: block;
+  cursor: crosshair;
+}
+
+/* Resizer */
+#resizer {
+  width: 4px;
+  cursor: col-resize;
+  background: var(--border);
+  transition: background var(--transition);
+  flex-shrink: 0;
+}
+#resizer:hover, #resizer.active { background: var(--accent); }
+
+/* ═══════════════════════════════════════════════════════════
+   Responsive
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .learn-container { padding: 20px 16px 60px; }
+  .mode-tab { font-size: 12px; letter-spacing: 0.5px; height: 46px; }
+  .mode-tab .mode-icon { font-size: 18px; }
+}
+
