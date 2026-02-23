@@ -24,6 +24,7 @@ An interactive, browser-based tutorial application that teaches GLSL shader prog
 - [Getting Started](#getting-started)
 - [Browser Compatibility](#browser-compatibility)
 - [External Resources](#external-resources)
+- [Contributing](#contributing)
 
 ---
 
@@ -63,8 +64,9 @@ shader-coding/
   css/
     styles.css            Stylesheet for index.html
   js/
-    engine.js             WebGL rendering engine (Shadertoy-compatible)
-    app.js                UI logic, lesson navigation, mode switching
+    engine.js             WebGL rendering engine (Shadertoy-compatible, ES6 class)
+    app.js                UI logic, lesson navigation, mode switching (ES6 class)
+    lessons.js            Shared LESSONS array (ES6 module)
   lessons/
     00-welcome.js         Lesson 0: Introduction and orientation
     01-hello-color.js     Lesson 1: UV coordinates, colors, gradients
@@ -87,13 +89,13 @@ shader-coding/
 
 The project ships two HTML files that represent different interface philosophies for the same core functionality:
 
-**index.html** -- The primary application. It uses a modular architecture with external CSS and JavaScript files. Lessons are loaded as individual script files that append to a global `window.LESSONS` array. The interface provides a prominent dual-mode tab bar that switches between a full-screen Learn view and a side-by-side Code view.
+**index.html** -- The primary application. It uses a modular architecture with external CSS and JavaScript files. Lessons are dynamically imported as ES6 modules at startup, populating a shared `LESSONS` array. The interface provides a prominent dual-mode tab bar that switches between a full-screen Learn view and a side-by-side Code view.
 
 **viewer.html** -- A fully self-contained single-file version. All CSS, JavaScript, lesson data, and the WebGL engine are inlined. It uses a traditional sidebar layout where the tutorial panel sits alongside the code editor and canvas simultaneously. This file can be distributed or hosted independently without any other files.
 
 ### WebGL Engine
 
-The rendering engine (`js/engine.js`) is an immediately-invoked function expression (IIFE) that exposes itself as `window.ShaderEngine`. It handles:
+The rendering engine (`js/engine.js`) is implemented as an ES6 class (`ShaderEngineClass`) and exported as a singleton (`ShaderEngine`). It handles:
 
 - **WebGL context initialization**: Attempts WebGL 2 first, falls back to WebGL 1. The vertex shader and fragment shader wrapper code are generated dynamically based on which version is available.
 - **Fullscreen quad rendering**: Creates a two-triangle quad covering the entire viewport. All rendering is performed by the fragment shader operating on this quad.
@@ -106,7 +108,7 @@ The rendering engine (`js/engine.js`) is an immediately-invoked function express
 
 ### Application Layer
 
-The UI logic (`js/app.js`) is also an IIFE. It manages:
+The UI logic (`js/app.js`) is implemented as an ES6 class (`ShaderApp`) and instantiated at startup. It manages:
 
 - **Mode switching**: Toggles between Learn and Code views by manipulating CSS classes on the mode content containers, tab buttons, and document body. A CSS class on the body (`learn-active`) controls visibility of code-only header elements.
 - **Lesson loading**: Populates the code editor textarea with the selected lesson's GLSL code, compiles it through the engine, renders the tutorial HTML content into the Learn panel, and wires up navigation buttons.
@@ -119,16 +121,16 @@ The UI logic (`js/app.js`) is also an IIFE. It manages:
 
 ### Lesson System
 
-Each lesson file (`lessons/XX-name.js`) follows the same pattern:
+Each lesson file (`lessons/XX-name.js`) is an ES6 module that imports the shared `LESSONS` array from `js/lessons.js` and pushes its lesson object:
 
-1. Initializes `window.LESSONS` as an array if it does not exist
-2. Pushes an object with three properties:
+1. Imports `LESSONS` from `../js/lessons.js`
+2. Pushes an object with these properties:
    - `title` -- Full display name (e.g., "08 -- Raymarching")
    - `short` -- Abbreviated pill label (e.g., "08 Raymarch")
    - `tutorial` -- A template literal containing rich HTML markup for the tutorial panel
    - `code` -- A template literal containing the default GLSL fragment shader code
 
-The lesson files are loaded in order via script tags in `index.html`. The order of the script tags determines the lesson sequence.
+Lessons are dynamically imported as ES6 modules in `app.js` at startup, ensuring the `LESSONS` array is populated before the UI loads. The order in the import array determines the lesson sequence.
 
 ---
 
@@ -239,4 +241,17 @@ The final lesson points users toward further learning materials:
 - [The Book of Shaders](https://thebookofshaders.com) -- Interactive GLSL textbook
 - [The Art of Code](https://youtube.com/@TheArtOfCode) -- YouTube channel with shader programming tutorials
 - [Inigo Quilez YouTube](https://youtube.com/@InigoQuilez) -- Video tutorials from the creator of Shadertoy
+
+---
+
+## Contributing
+
+This project now uses modern JavaScript (ES6 modules and classes). To contribute:
+
+- Follow the code style in the main JS files (prefer `const`/`let`, arrow functions, and class-based structure)
+- Add new lessons as ES6 modules in the `lessons/` folder, importing and pushing to the shared `LESSONS` array
+- Run and test changes by opening `index.html` in a browser
+- For major changes, please open an issue or pull request with a description of your proposal
+
+Planned improvements include automated linting, formatting, and testing (see open issues or TODOs in this README).
 

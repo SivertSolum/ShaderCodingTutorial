@@ -1,5 +1,5 @@
-window.LESSONS = window.LESSONS || [];
-window.LESSONS.push({
+import { LESSONS } from '../js/lessons.js';
+LESSONS.push({
   title: "07 — Noise",
   short: "07 Noise",
   tutorial: `

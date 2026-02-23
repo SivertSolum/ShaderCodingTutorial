@@ -1,5 +1,5 @@
-window.LESSONS = window.LESSONS || [];
-window.LESSONS.push({
+import { LESSONS } from '../js/lessons.js';
+LESSONS.push({
   title: "08 — Raymarching",
   short: "08 Raymarch",
   tutorial: `

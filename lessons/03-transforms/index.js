@@ -34,7 +34,7 @@ vec2 p = uv / scale;
 float d = sdCircle(p, 0.1) * scale; // fix distance!</pre>
 <div class="warn">When scaling SDFs, multiply the result by the scale factor to keep distances correct.</div>
 
-<h2>🎪 Combining Transforms</h2>
+<h2>🎯 Combining Transforms</h2>
 <p>Order matters! Translate first, then rotate = orbit. Rotate first, then translate = rotate in place then shift.</p>
 
 <h2>🧪 Exercises</h2>
@@ -98,44 +98,4 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
     vec3 col = vec3(0.05);
 
     // 1. TRANSLATION — shift the coordinate system
-    {
-        vec2 p = uv - vec2(-0.5, 0.2);
-        float d = sdCircle(p, 0.1);
-        col = mix(col, vec3(0.2, 0.6, 1.0), 1.0 - smoothstep(0.0, 0.008, d));
-    }
-
-    // 2. ROTATION — multiply by rotation matrix
-    {
-        vec2 p = uv - vec2(0.0, 0.2);
-        p = rot2D(iTime) * p;  // animated rotation!
-        float d = sdBox(p, vec2(0.08));
-        col = mix(col, vec3(1.0, 0.3, 0.5), 1.0 - smoothstep(0.0, 0.008, d));
-    }
-
-    // 3. SCALE — divide coords, correct SDF distance
-    {
-        vec2 p = uv - vec2(0.5, 0.2);
-        float scale = 1.5 + 0.5 * sin(iTime);
-        p /= scale;
-        float d = sdCircle(p, 0.1) * scale;
-        col = mix(col, vec3(0.3, 1.0, 0.5), 1.0 - smoothstep(0.0, 0.008, d));
-    }
-
-    // 4. COMBINED — Orbiting squares!
-    {
-        for (float i = 0.0; i < 6.0; i++) {
-            float angle = iTime * 0.8 + i * 6.28318 / 6.0;
-            float radius = 0.25;
-            vec2 p = uv - vec2(0.0, -0.3);
-            p -= radius * vec2(cos(angle), sin(angle));
-            p = rot2D(angle * 2.0) * p;
-            float d = sdBox(p, vec2(0.03));
-            vec3 c = 0.5 + 0.5 * cos(vec3(0, 2, 4) + i * 0.8);
-            col = mix(col, c, 1.0 - smoothstep(0.0, 0.008, d));
-        }
-    }
-
-    fragColor = vec4(col, 1.0);
-}`
-});
-
+// ...existing code...

@@ -1,0 +1,30 @@
+/* Theme styles for ShaderCodingTutorial */
+
+:root {
+  --bg:        #0d1117;
+  --bg-panel:  #161b22;
+  --bg-dark:   #010409;
+  --bg-editor: #0d1117;
+  --border:    #30363d;
+  --text:      #e6edf3;
+  --text-dim:  #8b949e;
+  --text-dimmer:#484f58;
+  --accent:    #58a6ff;
+  --accent2:   #3fb950;
+  --accent3:   #d2a8ff;
+  --accent4:   #f78166;
+  --accent5:   #ff7b72;
+  --yellow:    #e3b341;
+  --radius:    8px;
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --header-h: 48px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+::selection { background: rgba(88,166,255,0.3); }
+
+/* Add more theme-specific styles as needed */

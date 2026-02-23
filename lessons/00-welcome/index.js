@@ -62,7 +62,7 @@ LESSONS.push({
 <tr><td><code>iTime</code></td><td>float</td><td>Seconds since start</td></tr>
 <tr><td><code>iTimeDelta</code></td><td>float</td><td>Time since last frame</td></tr>
 <tr><td><code>iFrame</code></td><td>int</td><td>Frame counter</td></tr>
-<tr><td><code>iMouse</code></td><td>vec4</td><td>Mouse position &amp; click</td></tr>
+<tr><td><code>iMouse</code></td><td>vec4</td><td>Mouse position & click</td></tr>
 </table>
 
 <div class="tip">Click <strong>"01 Hello"</strong> above or select Lesson 01 from the dropdown to start coding!</div>
@@ -82,4 +82,3 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
     fragColor = vec4(col, 1.0);
 }`
 });
-

@@ -98,14 +98,4 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
 
     // TRY THESE (replace the line above):
     // vec3 col = vec3(1.0, 0.0, 0.0);             // solid red
-    // vec3 col = vec3(uv.x);                       // horizontal gradient
-    // vec3 col = mix(vec3(1,0,0), vec3(0,0,1), uv.x); // red→blue
-    // vec3 col = vec3((uv.x + uv.y) * 0.5);       // diagonal
-    // float check = mod(floor(uv.x*8.0)+floor(uv.y*8.0), 2.0);
-    // vec3 col = vec3(check);                       // checkerboard
-
-    // Step 3: Output the color (alpha = 1.0 = fully opaque)
-    fragColor = vec4(col, 1.0);
-}`
-});
-
+// ...existing code...
